@@ -24,8 +24,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <ApplicationInsightsResourceId>/subscriptions/69d9c0f3-c54c-4938-b0a7-483cf82049c9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/SkaktAnalytics</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/69d9c0f3-c54c-4938-b0a7-483cf82049c9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/SkaktAnalytics</ApplicationInsightsAnnotationResourceId>
+    <ApplicationInsightsResourceId>/subscriptions/69d9c0f3-c54c-4938-b0a7-483cf82049c9/resourcegroups/skakt/providers/microsoft.insights/components/skakt</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/69d9c0f3-c54c-4938-b0a7-483cf82049c9/resourceGroups/skakt/providers/microsoft.insights/components/skakt</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -176,23 +176,28 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\EntryController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Entry.cs" />
+    <Compile Include="Models\IdTableEntity.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EntryRepository.cs" />
     <Compile Include="Services\EntryService.cs" />
+    <Compile Include="Services\TableRepositoryBase.cs" />
+    <Compile Include="Services\UserTableRepository.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
-    <Content Include="Connected Services\skaktAzureStorage\ConnectedService.json" />
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <Content Include="Connected Services\skaktAzureStorage\ConnectedService.json" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\skakt - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\skakt - Web Deploy.pubxml" />

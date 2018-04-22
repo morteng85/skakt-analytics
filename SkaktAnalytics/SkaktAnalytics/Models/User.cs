@@ -3,25 +3,21 @@ using System;
 
 namespace SkaktAnalytics.Models
 {
-    public class Entry : TableEntity
+    public class User : TableEntity
     {
         public string UserName { get; set; }
-        public string Url { get; set; }
         public string Version { get; set; }
-        public string HostName { get; set; }
-        public string IpAddress { get; set; }
-        public string Agent { get; set; }
 
-        public Entry()
+        public User()
         {
 
         }
 
-        public Entry(string userName, string url)
+        public User(string userName, string version)
         {
             RowKey = Guid.NewGuid().ToString();
             PartitionKey = UserName = Utils.Reverse(userName);
-            Url = Utils.Reverse(url);
+            Version = version;
         }
     }
 }

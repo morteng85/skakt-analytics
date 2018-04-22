@@ -14,9 +14,13 @@ namespace SkaktAnalytics.Services
 
         public void AddEntry(Entry entry)
         {
+            var repo = new EntryRepository();
+
+            repo.Add(entry);
+
             if (_timer == null)
             {
-                _timer = new Timer(AddEntryInternal, entry, 2000, Timeout.Infinite);
+                //_timer = new Timer(AddEntryInternal, entry, 2000, Timeout.Infinite);
             }
         }
 
