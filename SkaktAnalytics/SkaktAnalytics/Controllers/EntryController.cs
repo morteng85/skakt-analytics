@@ -14,36 +14,42 @@ namespace SkaktAnalytics.Controllers
         private TelemetryClient telemetryClient = new TelemetryClient();
 
         [HttpGet]
-        public IHttpActionResult Add([FromUri]string n, [FromUri]string u, [FromUri]string v)
+        public IHttpActionResult Add([FromUri(Name = "n")]string name, [FromUri(Name = "u")]string url, [FromUri(Name = "v")]string version)
         {
             try
             {
                 var request = HttpContext.Current.Request;
-                var hostInfo = Dns.GetHostEntry(IPAddress.Parse(request.UserHostAddress));
 
-                var entry = new Entry(n, u)
+                var entry = new Entry(name, url)
                 {
-                    Version = v,
+                    Version = version,
                     Agent = request.UserAgent,
-                    IpAddress = request.UserHostAddress,
-                    HostName = hostInfo.HostName
+                    IpAddress = request.UserHostAddress
                 };
 
+                try
+                {
+                    var hostInfo = Dns.GetHostEntry(IPAddress.Parse(request.UserHostAddress));
+
+                    entry.HostName = hostInfo.HostName;
+                }
+                catch { }
+                
                 var svc = new EntryService();
 
                 svc.AddEntry(entry);
 
                 var userSvc = new UserTableRepository();
 
-                userSvc.AddIfNotExists(new User(n, v));
+                userSvc.AddIfNotExists(new User(name, version));
             }
             catch (Exception ex)
             {
                 var telemetry = new ExceptionTelemetry(ex);
 
                 telemetry.Properties.Add("message", ex.Message);
-                telemetry.Properties.Add("userName", n);
-                telemetry.Properties.Add("url", u);
+                telemetry.Properties.Add("userName", name);
+                telemetry.Properties.Add("url", url);
 
                 telemetryClient.TrackException(telemetry);
             }
