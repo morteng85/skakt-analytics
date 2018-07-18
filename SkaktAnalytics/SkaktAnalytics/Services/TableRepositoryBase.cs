@@ -1,12 +1,10 @@
 ﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using SkaktAnalytics.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 
 namespace SkaktAnalytics.Services
 {
@@ -53,6 +51,13 @@ namespace SkaktAnalytics.Services
         public bool Exists(Expression<Func<TEntity, bool>> whereExpr)
         {
             return Get(whereExpr).Count > 0;
+        }
+
+        public void Update(TEntity current, TEntity updated)
+        {
+            _cloudTable.Execute(TableOperation.Delete(current));
+
+            this.Add(updated);
         }
     }
 }

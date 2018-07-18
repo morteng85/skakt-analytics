@@ -7,17 +7,24 @@ namespace SkaktAnalytics.Models
     {
         public string UserName { get; set; }
         public string Version { get; set; }
+        public string Theme { get; set; }
+        public string Lines { get; set; }
+        public string Highlight { get; set; }
 
         public User()
         {
 
         }
 
-        public User(string userName, string version)
+        public User(string userName, string version, string theme, string lines, string highlight)
         {
             RowKey = Guid.NewGuid().ToString();
-            PartitionKey = UserName = Utils.Reverse(userName);
+            PartitionKey = Utils.SanitizeForParitionKey(userName);
+            UserName = userName;
             Version = version;
+            Theme = theme;
+            Lines = lines;
+            Highlight = highlight;
         }
     }
 }

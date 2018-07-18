@@ -20,8 +20,9 @@ namespace SkaktAnalytics.Models
         public Entry(string userName, string url)
         {
             RowKey = Guid.NewGuid().ToString();
-            PartitionKey = UserName = Utils.Reverse(userName);
-            Url = Utils.Reverse(url);
+            PartitionKey = Utils.SanitizeForParitionKey(userName);
+            UserName = userName;
+            Url = url;
         }
     }
 }

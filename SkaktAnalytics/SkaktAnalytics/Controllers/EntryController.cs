@@ -14,11 +14,14 @@ namespace SkaktAnalytics.Controllers
         private TelemetryClient telemetryClient = new TelemetryClient();
 
         [HttpGet]
-        public IHttpActionResult Add([FromUri(Name = "n")]string name, [FromUri(Name = "u")]string url, [FromUri(Name = "v")]string version)
+        public IHttpActionResult Add([FromUri(Name = "n")]string name, [FromUri(Name = "u")]string url, [FromUri(Name = "v")]string version, [FromUri(Name = "t")]string theme = "", [FromUri(Name = "l")]string lines = "", [FromUri(Name = "a")]string highlight = "")
         {
+            var request = HttpContext.Current.Request;
+
             try
             {
-                var request = HttpContext.Current.Request;
+                url = Utils.Reverse(url);
+                name = Utils.Reverse(name);
 
                 var entry = new Entry(name, url)
                 {
@@ -41,7 +44,7 @@ namespace SkaktAnalytics.Controllers
 
                 var userSvc = new UserTableRepository();
 
-                userSvc.AddIfNotExists(new User(name, version));
+                userSvc.AddOrUpdate(new User(name, version, theme, lines, highlight));
             }
             catch (Exception ex)
             {
@@ -50,6 +53,7 @@ namespace SkaktAnalytics.Controllers
                 telemetry.Properties.Add("message", ex.Message);
                 telemetry.Properties.Add("userName", name);
                 telemetry.Properties.Add("url", url);
+                telemetry.Properties.Add("requestUrl", request.Url.AbsoluteUri.ToString());
 
                 telemetryClient.TrackException(telemetry);
             }
