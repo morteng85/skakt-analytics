@@ -53,11 +53,11 @@ namespace SkaktAnalytics.Services
             return Get(whereExpr).Count > 0;
         }
 
-        public void Update(TEntity current, TEntity updated)
+        public void Update(TEntity entity)
         {
-            _cloudTable.Execute(TableOperation.Delete(current));
+            entity.ETag = "*";
 
-            this.Add(updated);
+            _cloudTable.Execute(TableOperation.Replace(entity));
         }
     }
 }

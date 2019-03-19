@@ -10,6 +10,8 @@ namespace SkaktAnalytics.Models
         public string Theme { get; set; }
         public string Lines { get; set; }
         public string Highlight { get; set; }
+        public string VersionInstalled { get; set; }
+        public string LastUsed { get; set; }
 
         public User()
         {
